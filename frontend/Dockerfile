@@ -24,6 +24,7 @@ RUN apk upgrade --no-cache && \
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Using unprivileged user
 USER nginx
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

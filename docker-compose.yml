@@ -18,6 +18,7 @@ services:
         limits:
           cpus: '0.50'
           memory: 256M
+    # Security policies
     cap_drop:
       - ALL
     cap_add:
@@ -45,6 +46,7 @@ services:
     cap_drop:
       - ALL
     read_only: true
+    # Grant privileges to nginx user
     tmpfs:
       - /var/cache/nginx:uid=101,gid=101,mode=0755
       - /var/run:uid=101,gid=101,mode=0755

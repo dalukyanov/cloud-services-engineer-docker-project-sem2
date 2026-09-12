@@ -19,6 +19,7 @@ RUN apk upgrade --no-cache && \
 WORKDIR /app
 COPY --from=builder /app/server .
 
+# Using unprivileged user appuser for backend
 USER appuser
 EXPOSE 8081
 CMD ["./server"]
