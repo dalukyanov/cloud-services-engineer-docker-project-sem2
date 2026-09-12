@@ -13,9 +13,17 @@ RUN NODE_OPTIONS=--openssl-legacy-provider npm run build
 FROM nginx:alpine
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache ca-certificates
+    apk add --no-cache ca-certificates && \
+    mkdir -p /var/cache/nginx/client_temp \
+             /var/cache/nginx/proxy_temp \
+             /var/cache/nginx/fastcgi_temp \
+             /var/cache/nginx/uwsgi_temp \
+             /var/cache/nginx/scgi_temp && \
+    chown -R nginx:nginx /var/cache/nginx /var/run /var/log/nginx && \
+    sed -i 's/listen\s*80;/listen 8080;/' /etc/nginx/conf.d/default.conf
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+USER nginx
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
