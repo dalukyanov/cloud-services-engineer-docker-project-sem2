@@ -1,5 +1,6 @@
 # Build stage
-FROM golang:1.25-alpine AS builder # version fix by Trivy
+# version fix by Trivy
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
@@ -10,7 +11,8 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /app/server ./cmd/api/
 
 # Runtime stage
-FROM alpine:3.22 # version fix by Trivy
+# version fix by Trivy
+FROM alpine:3.22
 
 RUN apk add --no-cache ca-certificates && \
     adduser -D -H -u 1001 appuser
