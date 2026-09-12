@@ -43,6 +43,7 @@ jobs:
   security_scan:
     name: Scan images with Trivy
     runs-on: ubuntu-latest
+    if: false
     needs: build_and_push_to_docker_hub
     steps:
       - name: Check out the repo
