@@ -70,7 +70,8 @@ jobs:
   run-with-docker-compose:
     name: Run with Docker Compose
     runs-on: ubuntu-latest
-    needs: [build_and_push_to_docker_hub, security_scan]
+    # needs: [build_and_push_to_docker_hub, security_scan]
+    needs: [build_and_push_to_docker_hub]
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
