@@ -17,6 +17,5 @@ RUN apk upgrade --no-cache && \
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-USER nginx
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

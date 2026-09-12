@@ -54,7 +54,3 @@ services:
       - /var/cache/nginx
       - /var/run
       - /tmp
-
-networks:
-  app-network:
-    driver: bridge
