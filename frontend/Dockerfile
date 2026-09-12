@@ -12,6 +12,9 @@ RUN NODE_OPTIONS=--openssl-legacy-provider npm run build
 # Runtime stage
 FROM nginx:alpine
 
+RUN apk upgrade --no-cache && \
+    apk add --no-cache ca-certificates
+
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 USER nginx
