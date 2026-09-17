@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -26,7 +27,31 @@ func main() {
 	}
 }
 
+func loadAPIKey() string {
+	// 1. Пробуем файл (Docker Secrets)
+	if path := os.Getenv("API_KEY_FILE"); path != "" {
+		data, err := os.ReadFile(path)
+		if err == nil {
+			return strings.TrimSpace(string(data))
+		}
+		logger.Log.Warn("cannot read API key file",
+			zap.String("path", path),
+			zap.Error(err))
+	}
+	// 2. Fallback на env (для локальной разработки)
+	return os.Getenv("API_KEY")
+}
+
 func run() error {
+	// Загружаем API-ключ из секрета
+	apiKey := loadAPIKey()
+	if apiKey == "" {
+		logger.Log.Warn("API key is not set")
+	} else {
+		logger.Log.Info("API key loaded successfully",
+			zap.Int("length", len(apiKey)))
+	}
+
 	lis, err := net.Listen("tcp", ":8081")
 	if err != nil {
 		return err

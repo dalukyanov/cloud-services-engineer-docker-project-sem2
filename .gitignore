@@ -17,3 +17,7 @@ vendor/
 .vscode/
 .DS_Store
 *.tgz
+
+# Secrets
+secrets/*.txt
+!secrets/.gitkeep
