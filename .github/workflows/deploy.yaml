@@ -63,3 +63,5 @@ jobs:
           chmod 600 secrets/api_key.txt
       - name: Build via Docker Compose
         uses: hoverkraft-tech/compose-action@v2.2.0
+        with:
+          up-flags: "--scale backend=2 --scale frontend=2"
