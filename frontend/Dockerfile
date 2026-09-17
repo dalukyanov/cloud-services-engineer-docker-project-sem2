@@ -24,7 +24,11 @@ RUN apk upgrade --no-cache && \
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Using unprivileged user
 USER nginx
 EXPOSE 8080
+
+# Healthcheck: используем встроенный в nginx curl-like через wget из busybox
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
+
 CMD ["nginx", "-g", "daemon off;"]

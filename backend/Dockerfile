@@ -19,7 +19,11 @@ RUN apk upgrade --no-cache && \
 WORKDIR /app
 COPY --from=builder /app/server .
 
-# Using unprivileged user appuser for backend
 USER appuser
 EXPOSE 8081
+
+# Healthcheck: проверяем /health через wget (есть в busybox)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8081/health || exit 1
+
 CMD ["./server"]
