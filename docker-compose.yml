@@ -7,6 +7,8 @@ services:
       - PORT=8081
     networks:
       - app-network
+    volumes:
+      - backend-logs:/app/logs
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:8081/health"]
       interval: 30s
@@ -38,6 +40,8 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    volumes:
+      - frontend-logs:/var/log/nginx
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:8080/"]
       interval: 30s
@@ -61,3 +65,9 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  backend-logs:
+    driver: local
+  frontend-logs:
+    driver: local
